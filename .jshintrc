@@ -1,0 +1,19 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "futurehostile": true,
+  "latedef": true,
+  "nocomma": true,
+  "undef": true,
+  "validthis": true,
+  "globals": {
+    "window": false,
+    "console": false,
+    "_": true,
+    "require": false,
+    "module": false,
+    "__dirname": false,
+    "process": false
+  },
+  "debug": true
+}

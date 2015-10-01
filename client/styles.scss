@@ -1,0 +1,109 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,300);
+
+$primary-font:          'Open Sans', sans-serif;
+$primary-font-weight:   300;
+
+// ----------------------------------------
+// colors
+// ----------------------------------------
+$eggplant:              #1B1B24;
+$light-eggplant:        #282936;
+$light-purple:          #8A8DB7;
+$blue:                  #4384D8;
+$green:                 #339966;
+$pink:                  #FE57A1;
+$yellow:                #FFC107;
+$turquoise:             #26CCDA;
+$grey:                  #888;
+
+// ----------------------------------------
+// mixins
+// ----------------------------------------
+
+// Center an element's contents both vertically and horizontally
+@mixin center() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// ----------------------------------------
+// default element styles
+// ----------------------------------------
+* {
+  margin: 0px;
+  padding: 0px;
+  cursor: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+
+  font-family: $primary-font;
+  font-weight: $primary-font-weight;
+  color: white;
+
+  background-color: $eggplant;
+
+  @include center();
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+ul {
+  list-style: none;
+  list-style-type: none;
+}
+
+// ----------------------------------------
+// common custom classes
+// ----------------------------------------
+.main {
+}
+
+.clickable {
+  cursor: pointer
+}
+
+// ----------------------------------------
+// bootstrap overrides a
+// ----------------------------------------
+.well {
+  background-color: $light-eggplant;
+  border: none;
+  border-radius: 10px;
+}
+
+.btn-github, .btn-google {
+  background-color: $eggplant;
+  color: $light-purple;
+  @include center();
+  flex-direction: row;
+
+  i {
+    padding-right: 16px;
+  }
+
+  &:hover {
+    color: white;
+  }
+}
+
+.btn-github {
+  margin-bottom: 10px;
+}

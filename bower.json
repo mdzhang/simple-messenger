@@ -1,0 +1,19 @@
+{
+  "name": "simple-messenger",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mdzhang/simple-messenger.git",
+  "authors": [
+    "Michelle Zhang <zhang.michelle.d@gmail.com>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "lodash": "latest",
+    "font-awesome": "latest",
+    "angular": "latest",
+    "bootstrap": "latest"
+  }
+}
