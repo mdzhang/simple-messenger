@@ -89,6 +89,14 @@ ul {
   border-radius: 10px;
 }
 
+button {
+  border: none;
+
+  &:focus {
+    outline: none
+  }
+}
+
 .btn-github, .btn-google {
   background-color: $eggplant;
   color: $light-purple;
@@ -99,7 +107,7 @@ ul {
     padding-right: 16px;
   }
 
-  &:hover {
+  &:hover, &:focus {
     color: white;
   }
 }
