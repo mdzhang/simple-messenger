@@ -3,36 +3,29 @@ var passport = require('passport');
 var models = require('../../lib/models');
 var config = require('../../config');
 
-var GitHubStrategy = require('passport-github').Strategy;
+var GitHubStrategy = require('passport-github2').Strategy;
 
 var strategy = new GitHubStrategy(config.auth.github, function(accessToken, refreshToken, profile, done) {
-  // var options = {
-  //   criteria: {
-  //     'github.id': profile.id
-  //   },
-  //   newUserInfo: {
-  //     name: profile.displayName,
-  //     email: profile.emails[0].value,
-  //     username: profile.username,
-  //     provider: 'github',
-  //     github: profile._json
-  //   }
-  // };
+  models.User.findOne({ provider_id: profile.id }).exec()
+    .then(function(user) {
+      // If we couldn't find the user, create and save a new one.
+      if (!user) {
+        var data = {
+          email: profile.emails[0].value,
+          username: profile.login,
+          provider: 'github',
+          provider_id: profile.id
+        };
 
-  // models.User.findOne(options.criteria, function(err, user) {
-  //   if (err) return done(err);
-
-  //   // If we couldn't find the user, create and save a new one.
-  //   if (!user) {
-  //     user = new User(options.newUserInfo);
-
-  //     user.save(function(err) {
-  //       return done(err, user);
-  //     });
-  //   } else {
-  //     return done(err, user);
-  //   }
-  // });
+        user = new models.User(data);
+        user.save()
+          .then(function(user) {
+            done(null, user);
+          });
+      } else {
+        return done(null, user);
+      }
+    });
 });
 
 module.exports = strategy;

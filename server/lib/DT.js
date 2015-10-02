@@ -14,6 +14,25 @@ var CustomFields = {
   }
 };
 
+var addCustomFuncsToModel = function(schema) {
+  schema.get = function(id) {
+    console.log('get ', id)
+    return schema.findOne({ id: id });
+  };
+
+  // schema.create = function(modelJson, cb) {
+  //   var model = new schema(data);
+
+  //   if (cb) {
+  //     return model.save(cb);
+  //   } else {
+  //     return model.save();
+  //   }
+  // };
+
+  return schema;
+};
+
 var getBaseModel = function(name) {
   if (!name) {
     throw new errors.IllegalArgumentError('buildModel requires a valid model name');
@@ -49,7 +68,7 @@ var buildModel = function(baseModel) {
   });
 
   var dtModel = mongoose.model(baseModel.name, schema);
-  // TODO: add extra stuff on top of mongoose
+  dtModel = addCustomFuncsToModel(dtModel);
 
   return dtModel;
 };

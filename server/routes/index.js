@@ -5,7 +5,7 @@ var decorators = require('../lib/decorators');
 
 // home page
 router.get('/', decorators.requiresLogin, function(req, res, next) {
-    res.render('index.jade', { user: req.user });
+  res.render('index.jade', { user: req.user });
 });
 
 // ----------------------------------------
@@ -25,18 +25,18 @@ router.get('/logged-out', function(req, res, next) {
 });
 
 // oauth logins
-router.get('/auth/github', passport.authenticate('github'));
-router.get('/auth/github/callback',
-  passport.authenticate('github', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-  }));
+router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
+router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback',
   passport.authenticate('google', {
-      successRedirect: '/',
-      failureRedirect: '/login'
+    successRedirect: '/',
+    failureRedirect: '/login'
   }));
 
 module.exports = router;

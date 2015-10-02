@@ -8,9 +8,10 @@ passport.serializeUser(function(user, done) {
 
 // find user by session user_id and store on req.user
 passport.deserializeUser(function(user_id, done) {
-  models.User.get(user_id, function(err, user) {
-    done(err, user);
-  });
+  models.User.get(user_id)
+    .then(function(user) {
+      done(null, user);
+    });
 });
 
 passport.use(require('./github'));

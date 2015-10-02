@@ -15,7 +15,8 @@ m.fields = {
                           'github',
                           'google'
                         ]
-                      }
+                      },
+  provider_id:        { type: String }
 };
 
 m.getterMethods = {
