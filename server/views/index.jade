@@ -1,4 +1,19 @@
-extends ./layout.jade
+doctype html
+html(lang='en')
+  head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
 
-block content
-  h1 Simple Messenger
+      // Styles
+      link(rel='stylesheet', href='/css/bower.min.css')
+      link(rel='stylesheet', href='/css/client.min.css')
+
+      // Scripts
+      script(src='/js/bower.min.js')
+      script(src='/js/client.min.js')
+      script(src='/js/client.templates.js')
+
+      base(href="/")
+  body(ng-app='simpleMessengerApp')
+    div.main
+      view(ui-view)

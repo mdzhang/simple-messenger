@@ -3,7 +3,7 @@ var models = require('../../lib/models');
 
 // only store a user's id on the session
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 // find user by session user_id and store on req.user

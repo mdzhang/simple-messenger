@@ -9,11 +9,13 @@
   "globals": {
     "window": false,
     "console": false,
-    "_": true,
     "require": false,
     "module": false,
     "__dirname": false,
-    "process": false
+    "process": false,
+    "angular": false,
+    "_": true,
+    "simpleMessengerApp": true
   },
   "debug": true
 }

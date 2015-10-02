@@ -17,11 +17,7 @@ var strategy = new GitHubStrategy(config.auth.github, function(accessToken, refr
           provider_id: profile.id
         };
 
-        user = new models.User(data);
-        user.save()
-          .then(function(user) {
-            done(null, user);
-          });
+        return new models.User.create(data, done);
       } else {
         return done(null, user);
       }

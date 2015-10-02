@@ -4,33 +4,33 @@ var mongoose = require('mongoose');
 var uid = require('uid');
 
 var CustomFields = {
-  id: {
-    type: String,
-    default: uid(24)
-  },
   created_at: {
     type: Date,
     default: Date.now
   }
 };
 
-var addCustomFuncsToModel = function(schema) {
-  schema.get = function(id) {
-    console.log('get ', id)
-    return schema.findOne({ id: id });
+var Types = {
+  ID: mongoose.Schema.Types.ObjectId,
+  DATE: Date,
+  STRING: String,
+};
+
+var addCustomFuncs = function(dtModel) {
+  dtModel.get = function(id, cb) {
+    return dtModel.findById(id, cb);
   };
 
-  // schema.create = function(modelJson, cb) {
-  //   var model = new schema(data);
+  dtModel.list = function(cb) {
+    return dtModel.find({}, cb);
+  };
 
-  //   if (cb) {
-  //     return model.save(cb);
-  //   } else {
-  //     return model.save();
-  //   }
-  // };
+  dtModel.create = function(data, cb) {
+    var model = new dtModel(data);
+    return model.save(cb);
+  };
 
-  return schema;
+  return dtModel;
 };
 
 var getBaseModel = function(name) {
@@ -68,7 +68,7 @@ var buildModel = function(baseModel) {
   });
 
   var dtModel = mongoose.model(baseModel.name, schema);
-  dtModel = addCustomFuncsToModel(dtModel);
+  addCustomFuncs(dtModel);
 
   return dtModel;
 };
@@ -76,5 +76,6 @@ var buildModel = function(baseModel) {
 module.exports = {
   getBaseModel: getBaseModel,
   buildModel: buildModel,
-  CustomFields: CustomFields
+  CustomFields: CustomFields,
+  Types: Types,
 };

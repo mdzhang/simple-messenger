@@ -3,6 +3,10 @@
 $primary-font:          'Open Sans', sans-serif;
 $primary-font-weight:   300;
 
+$default-margin:        16px;
+$default-padding:       16px;
+$default-padding-sm:    8px;
+
 // ----------------------------------------
 // colors
 // ----------------------------------------
@@ -70,33 +74,76 @@ ul {
   list-style-type: none;
 }
 
+textarea:focus, input:focus, button:focus {
+  outline: none;
+}
+
+button {
+  padding: $default-padding-sm;
+  font-size: 20px;
+  border: none;
+
+  &:hover, &:focus {
+    border: 1px solid white;
+  }
+}
+
+textarea {
+  padding: $default-padding;
+  font-size: 14px;
+}
+
 // ----------------------------------------
 // common custom classes
 // ----------------------------------------
 .main {
 }
 
-.clickable {
-  cursor: pointer
-}
-
-// ----------------------------------------
-// bootstrap overrides a
-// ----------------------------------------
 .well {
   background-color: $light-eggplant;
-  border: none;
-  border-radius: 10px;
+  padding: $default-padding;
+  margin: $default-margin 0px;
+  // overflow: auto;
 }
 
-button {
-  border: none;
+.clickable {
+  cursor: pointer;
+}
 
-  &:focus {
-    outline: none
+.cf {
+  clear: both;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.ba {
+  &::after {
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    width: 0;
+    height: 0;
+    border: solid transparent;
+    border-width: 10px;
+    border-color: transparent;
+    border-top-color: $yellow;
+    content: '';
+    pointer-events: none;
+    top: 99%;
   }
 }
 
+.ba-right {
+  &::after {
+    left: 80%;
+  }
+}
+
+// ----------------------------------------
+// login
+// ----------------------------------------
 .btn-github, .btn-google {
   background-color: $eggplant;
   color: $light-purple;
@@ -114,4 +161,49 @@ button {
 
 .btn-github {
   margin-bottom: 10px;
+}
+
+// ----------------------------------------
+// web app
+// ----------------------------------------
+
+.listMessages {
+
+  .message {
+    background-color: $yellow;
+    color: $eggplant;
+    position: relative;
+    padding: $default-padding;
+    margin: $default-margin 0px;
+
+    .date {
+      float: right;
+      font-size: xx-small;
+      padding-top: 10px;
+    }
+  }
+}
+
+.bottomBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: $default-margin;
+  @include center();
+  flex-direction: row;
+
+  textarea {
+    width: 500px;
+    height: 30px;
+  }
+
+  .send {
+    background-color: $green;
+    width: 48px;
+    height: 32px;
+    line-height: 32px;
+    padding: $default-padding;
+    text-align: center;
+  }
 }

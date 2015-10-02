@@ -3,10 +3,12 @@ var router = express.Router();
 var passport = require('passport');
 var decorators = require('../lib/decorators');
 
-// home page
-router.get('/', decorators.requiresLogin, function(req, res, next) {
-  res.render('index.jade', { user: req.user });
-});
+// client app routes
+router.get('/', require('./app'));
+router.use('/messages*', require('./app'));
+
+// api routes
+router.use('/api', require('./api'));
 
 // ----------------------------------------
 // user login/logout

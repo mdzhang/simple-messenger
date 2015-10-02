@@ -1,0 +1,20 @@
+<div ng-controller="listMessages" class="listMessages">
+  <div class="messages">
+    <div class="message ba ba-right" ng-repeat="message in messages | orderBy:'created_at'">
+      <div class="note">
+        {{ message.note }}
+      </div>
+      <div class="date">
+        {{ message.created_at | date }}
+      </div>
+      <div class="author cf">
+        {{ message.created_by.name }}
+      </div>
+    </div>
+  </div>
+
+  <div class="bottomBar">
+    <textarea placeholder="Enter text..." ng-model="note" autofocus></textarea>
+    <div class="btn send" ng-click="createMessage()" ng-disabled="!note.length">Send</div>
+  </div>
+</div>

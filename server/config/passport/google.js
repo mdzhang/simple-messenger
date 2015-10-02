@@ -6,23 +6,20 @@ var config = require('../../config');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var strategy = new GoogleStrategy(config.auth.google, function(accessToken, refreshToken, profile, done) {
-  console.log('google profile: ', profile);
   models.User.findOne({ provider_id: profile.id }).exec()
     .then(function(user) {
       // If we couldn't find the user, create and save a new one.
       if (!user) {
         var data = {
-          email: profile.emails[0].value,
-          username: profile.login,
+          email: profile.email,
+          first_name: profile.given_name,
+          last_name: profile.family_name,
+          username: profile.email,
           provider: 'google',
           provider_id: profile.id
         };
 
-        user = new models.User(data);
-        user.save()
-          .then(function(user) {
-            done(null, user);
-          });
+        return new models.User.create(data, done);
       } else {
         return done(null, user);
       }

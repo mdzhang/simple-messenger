@@ -1,15 +1,16 @@
 var _ = require('lodash');
+var path = require('path');
 
 module.exports = function(grunt) {
 
   var bowerjs = [
     'lodash/lodash.js',
-    'angular/angular.js'
+    'angular/angular.js',
+    'angular-ui-router/release/angular-ui-router.js'
   ];
 
   var bowercss = [
-    'font-awesome/css/font-awesome.min.css',
-    'bootstrap/dist/css/bootstrap.min.css'
+    'font-awesome/css/font-awesome.min.css'
   ];
 
   var rewrite = function(b) {
@@ -27,7 +28,7 @@ module.exports = function(grunt) {
         sourcemap: 'none'
       },
       dist: {
-        src: ['client/{,*/}*.scss'],
+        src: ['client/**/*.scss'],
         dest: 'public/tmp/client.css'
       }
     },
@@ -37,9 +38,10 @@ module.exports = function(grunt) {
         separator: '\n',
       },
       js: {
-        src: bowerjs,
-        dest: 'public/tmp/bower.js'
-        // 'public/tmp/client.js': ['client/{,*/}*.js']
+        files: {
+          'public/js/bower.min.js': bowerjs,
+          'public/tmp/client.js': ['client/{,*/}*.js']
+        }
       },
       css: {
         src: bowercss,
@@ -96,9 +98,21 @@ module.exports = function(grunt) {
     uglify: {
       target: {
         files: {
-          'public/js/bower.min.js': 'public/tmp/bower.js',
+          // 'public/js/bower.min.js': 'public/tmp/bower.js',
           'public/js/client.min.js': 'public/tmp/client.js'
         }
+      }
+    },
+    html2js: {
+      options: {
+        rename: function(name) {
+          return path.basename(name);
+        },
+        module: 'templates',
+      },
+      default: {
+        src: ['client/**/*.html'],
+        dest: 'public/js/client.templates.js'
       }
     },
     // clean temporary build files
@@ -133,13 +147,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
   grunt.registerTask('code_quality', ['jshint', 'jscs']);
-  grunt.registerTask('build_client', ['sass', 'concat', 'postcss', 'cssmin', 'uglify', 'clean']);
+  grunt.registerTask('build_client', ['sass', 'concat', 'postcss', 'cssmin', 'uglify', 'html2js', 'clean']);
   grunt.registerTask('build', ['code_quality', 'build_client', 'clean']);
   grunt.registerTask('default', ['build', 'watch']);
 };
