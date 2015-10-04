@@ -10,5 +10,6 @@ var auth = decorators.requiresLogin;
 // ----------------------------------------
 router.post('/messages/create', api.messages.create);
 router.get('/messages/list', api.messages.list);
+router.get('/messages/poll', api.messages.poll);
 
 module.exports = router;

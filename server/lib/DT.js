@@ -27,7 +27,23 @@ var addCustomFuncs = function(dtModel) {
 
   dtModel.create = function(data, cb) {
     var model = new dtModel(data);
+    dtModel.bus.emit('create', model);
     return model.save(cb);
+  };
+
+  return dtModel;
+};
+
+var addBus = function(dtModel) {
+  var EventEmitter = require('events').EventEmitter;
+  var bus = new EventEmitter();
+  bus.setMaxListeners(10);
+  dtModel.bus = bus;
+
+  dtModel.addBusListener = function(res) {
+    dtModel.bus.once('create', function(data) {
+      res.json(data);
+    });
   };
 
   return dtModel;
@@ -69,6 +85,7 @@ var buildModel = function(baseModel) {
 
   var dtModel = mongoose.model(baseModel.name, schema);
   addCustomFuncs(dtModel);
+  addBus(dtModel);
 
   return dtModel;
 };

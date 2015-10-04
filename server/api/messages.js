@@ -16,7 +16,12 @@ var list = function(req, res, next) {
     }, next);
 };
 
+var poll = function(req, res, next) {
+  models.Message.addBusListener(res);
+};
+
 module.exports = {
   create: create,
-  list: list
+  list: list,
+  poll: poll
 };

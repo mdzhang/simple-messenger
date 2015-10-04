@@ -1,4 +1,6 @@
-simpleMessengerApp.controller('listMessages', ['$scope', '$http', function($scope, $http) {
+simpleMessengerApp.controller('listMessages',
+['$scope', '$http', 'DataManager', function($scope, $http, DataManager) {
+
   $scope.messages = [];
   $scope.note = null;
 
@@ -8,27 +10,19 @@ simpleMessengerApp.controller('listMessages', ['$scope', '$http', function($scop
       return;
     }
 
-    $http.post('/api/messages/create', { note: $scope.note })
-      .success(function(message) {
-        $scope.messages.push(message);
-      })
-      .error(function(e) {
-        console.error(e);
-      });
-  };
+    DataManager.methods.messages.create({ note: $scope.note }, function(err, message) {
+      if (err) {
+        console.log(err);
+      }
 
-  var _getMessages = function() {
-    $http.get('/api/messages/list')
-      .success(function(messages) {
-        $scope.messages = messages;
-      })
-      .error(function(e) {
-        console.error(e);
-      });
+      console.info('created message: ', message);
+    });
   };
 
   var _init = function() {
-    _getMessages();
+    DataManager.observe('messages', function(err, messages) {
+      $scope.messages = messages;
+    });
   };
 
   _init();
